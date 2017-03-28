@@ -1,0 +1,590 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/x-icon" href="https://login.hand-china.com/sso/favicon.ico" media="screen" />
+    <title>前端技术规范</title>
+</head>
+<body>
+	<style>
+		/* 公共 */	
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		html,
+		body {
+			height: 100%;
+		}
+		body {
+			font: 14px/1.5 "Microsoft YaHei",tahoma,arial,Hiragino Sans GB,\5b8b\4f53;			
+		}
+		li {
+			list-style-type: disc;
+			line-height: 26px;
+		}	
+		a {
+			color: #333333;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		a:active,
+		a:hover {
+		  outline: 0;
+		}
+		a:hover {
+			text-decoration: underline;
+			color: red;
+		}
+		em {
+			font-style: normal;
+		}
+		h3,
+		h4 {
+			font-weight: normal;
+		}
+		.clearfix:after,
+		.clearfix:before{
+			display: table;
+			content: " ";
+		}
+		.clearfix:after{
+			clear: both;
+		}
+		.width-1024 {
+			width: 1024px;
+			margin: 0 auto;
+		}
+		.font-16 {
+			font-size: 16px;
+		}
+		.font-color-green {
+			color: #009A61;
+		}
+		.font-color-red {
+			color: #C72B4E;
+		}
+		.mg-top20 {
+			margin-top: 20px;
+		}
+		
+		/* 左侧栏 */
+		.aside {
+			background: #FAFAFA;
+			height: 100%;
+			position: fixed;
+			border-right: 1px solid #E5E5E5;
+			width: 150px;
+			padding: 20px;
+		}
+		.aside ul li a {
+			color: #009A61;
+		}
+		.aside .sub {
+			list-style: none;
+		}
+		.aside-ul,
+		.aside .sub ul {
+			padding-left: 15px;
+		}
+		
+		/* 右内容 */
+		.main-right {
+			float: left;
+			margin-left: 230px;
+			width: 810px;
+		}
+		.main-right-content dt {
+			line-height: 40px;
+			padding-top: 20px;
+			font-size: 18px;
+			border-bottom: 1px solid #E5E5E5;
+		}
+		.main-right-content dd {
+			padding-top: 0px;
+		}
+		.main-right-content .emphasize {
+			color: #C72B4E;
+			background: #F9F2F4;
+			padding: 1px 4px;
+			border-radius: 3px;
+			font-size: 14px;
+		}
+		.content-dd h3, 
+		.content-dd h4, 
+		.content-dd p, 
+		.content-dd pre {
+			line-height: 30px;
+		}
+		.dd-pre {
+			color: #D98E6F;
+ 			border-radius: 6px;
+ 			background: #F5F5F5;
+ 			padding: 10px;
+ 			margin: 10px 0;	
+		}
+		.color-blue {
+			color: #D98E6F;
+		}
+		.dd-pre-blue {
+			padding: 16px;
+		    background-color: #f6f8fa;
+		    border-radius: 3px;
+		    font: 16px "Microsoft YaHei","SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+		    margin-top: 10px;
+		    margin-bottom: 10px;
+		}
+		.color-hope {
+			color: forestgreen;
+			font-weight: bold;
+		}
+	</style>
+			
+	<section id="main" class="clearfix width-1024">
+		<aside class="aside">
+			<ul class="aside-ul">
+				<li><a href="#article1">1 前言</a></li>
+				<li><a href="#article2">2 技术选型</a></li>
+				<li class="sub">
+					<ul>
+						<li><a href="#article21">2.1 框架套装</a></li>
+						<li><a href="#article22">2.2 推荐组件</a></li>
+						<li><a href="#article23">2.2 自动化构建</a></li>
+					</ul>
+				</li>
+				
+				<li><a href="#article3">3 css规范</a></li>
+				<li class="sub">
+					<ul>
+						<li><a href="#article31">3.1 选择器命名</a></li>
+						<!--<li><a href="#article32">3.2 缩进</a></li>-->
+						<li><a href="#article33">3.2 空格</a></li>
+						<li><a href="#article34">3.3 选择器</a></li>
+						<li><a href="#article35">3.4 属性</a></li>
+						<li><a href="#article36">3.5 BEM命名示例</a></li>
+					</ul>
+				</li>
+				
+				<li><a href="#article4">4 JS代码规范</a></li>
+				<li class="sub">
+					<ul>
+						<li><a href="#article41">4.1 严格模式</a></li>
+						<li><a href="#article42">4.2 controller定义</a></li>
+						<li><a href="#article43">4.3 属性+方法定义</a></li>
+					</ul>
+				</li>
+				
+				<li><a href="#article5">5 项目结构</a></li>
+				<li class="sub">
+					<ul>
+						<li><a href="#article51">5.1 文件结构</a></li>
+					</ul>
+				</li>
+				
+				<!--<li><a href="#article4">4 值与单位</a></li>
+				<li class="sub">
+					<ul>
+						<li><a href="#article41">4.1 文本</a></li>
+						<li><a href="#article42">4.2 url()</a></li>
+						<li><a href="#article43">4.3 长度</a></li>
+						<li><a href="#article44">4.4 颜色</a></li>
+					</ul>
+				</li>				-->
+			</ul>
+		</aside>
+		
+		<div class="main-right">
+			<dl class="main-right-content" id="article1">
+				<dt class="font-color-green">1 前言</dt>
+				<dd class="mg-top20">
+					<p>本文档的目的在于<em class="emphasize">统一前端框架</em>，其中某些点需要结合项目具体情况而定，所以只是<em class="emphasize">建议性</em>的，有任何意见大家一起讨论。</p>
+				</dd>
+			</dl>
+
+			<dl class="main-right-content" id="article2">
+				<dt id="article2" class="font-color-green">2 技术选型</dt>
+				<dd class="content-dd">
+					
+					<h3 id="article21" class="font-16 font-color-green mg-top20">2.1 框架套装</h3>
+					<h4 class="font-16"><em class="font-color-green">Angular + bootstrap：</em>angular：1.6.2bootstrap：v3.3.0</h4>
+					<p><em class="font-color-green">优势：</em>数据双向绑定，自定义指令+第三方组件，提高重用性</p>
+					<p><em class="font-color-green">不足：</em>应用层来说，不好处理dom非常复杂的场景，SEO不友好，游览器兼容性(IE 9+)</p>
+					
+					<h3 id="article22" class="font-16 font-color-green mg-top20">2.1 推荐组件</h3>
+					
+					<h4 class="font-16"><em class="font-color-green">&nbsp;&nbsp;&nbsp;&nbsp;1、angular-ui-router：</em>angular官方推荐的第三方路由处理组件，ui-router是基于<em class="emphasize">state</em>的<em class="emphasize">可嵌套</em>的路由管理，可结合oclazyload实现懒加载以及预加载</h4>
+					<pre class="dd-pre-blue">
+版本号: "0.4.2"
+官方地址：<a class="color-blue" href="https://github.com/angular-ui/ui-router" target="_blank">angular-ui-router</a></pre>
+					
+					<h4 class="font-16"><em class="font-color-green">&nbsp;&nbsp;&nbsp;&nbsp;2、angular-resource：</em>基于Restful风格的$http服务，DMP项目对其简单地做了二次封装，针对CRUD提供不同的方法，并且自动设置token认证信息</h4>
+					<pre class="dd-pre-blue">
+版本号: "1.6.2"
+官方地址：<a class="color-blue" href="http://docs.angularjs.org/api/ngResource" target="_blank">angular-resource</a></pre>
+					
+					<h4 class="font-16"><em class="font-color-green">&nbsp;&nbsp;&nbsp;&nbsp;3、ng-table：</em>表格控件，功能比较齐全(排序，搜索，分页，嵌套，行内编辑，导出)，美观度也不错</h4>
+					<pre class="dd-pre-blue">
+版本号: "0.8.3"
+官方地址：<a class="color-blue" href="https://github.com/esvit/ng-table" target="_blank">ng-table</a>(ps:现在官方已经升级成了4.4.0版本)</pre>
+					
+					<h4 class="font-16"><em class="font-color-green">&nbsp;&nbsp;&nbsp;&nbsp;4、ng-echarts+echarts(3.0)：</em>引入了百度<em class="emphasize">echarts3.0</em>，做图表功能，ng-echarts是针对原生echars的指令封装，操作更简单，不同图标只需要复制官方Option进行修改即可</h4>
+					<pre class="dd-pre-blue">
+ng-echarts版本号: "3.0.1"
+echarts版本号: "3.0"
+官方地址：<a class="color-blue" href="https://github.com/liekkas/ng-echarts" target="_blank">ng-echarts</a>
+官方地址：<a class="color-blue" href="http://echarts.baidu.com/" target="_blank">echarts 3.0</a></pre>
+					
+					<h4 class="font-16"><em class="font-color-green">&nbsp;&nbsp;&nbsp;&nbsp;5、ng-dialog：</em>弹窗控件，ngDialog体积小，功能强大，可以针对template设置conroller，处理非常灵活,支持自定义样式</h4>
+					<pre class="dd-pre-blue">
+版本号: "1.0.1"
+官方地址：<a class="color-blue" href="https://github.com/likeastore/ngDialog" target="_blank">ng-dialog</a></pre>
+
+					<h4 class="font-16"><em class="font-color-green">&nbsp;&nbsp;&nbsp;&nbsp;5、angular-ui-bootstrap：</em>一款结合bootstrap以angular指令实现的UI标签组件，手风琴，轮播，日历，模态框，分页，标签页，进度条....</h4>
+					<pre class="dd-pre-blue">
+版本号: "2.5.0"
+官方地址：<a class="color-blue" href="https://github.com/angular-ui" target="_blank">angular-ui-bootstrap</a></pre>
+
+					<h4 class="font-16"><em class="font-color-green">&nbsp;&nbsp;&nbsp;&nbsp;6、oclazyload：</em>懒加载组件，可根据项目实际需求选择，spa项目在index页面加载全部文件也是可以的</h4>
+					<pre class="dd-pre-blue">
+版本号: "1.1.0"
+官方地址：<a class="color-blue" href="https://github.com/ocombe/ocLazyLoad" target="_blank">oclazyload</a></pre>
+					
+					<h3 id="article23" class="font-16 font-color-green mg-top20">2.3 自动化构建工具</h3>
+					<h4 class="font-16"><em class="font-color-green">建议：</em><em class="emphasize">npm+gulp</em> (cnpm 可选)。</h4>
+					<p><em class="font-color-green">解释：</em><em class="emphasize">bower</em> 官方已经停止维护(站点还在国外，天朝你懂的),很多github项目也已经只提供npm的安装方式，所以慢慢弃用。<em class="emphasize">gulp</em>负责：</p>
+<pre class="dd-pre">
+npm：包管理，npm3的扁平化依赖管理导致node_modules里有很多乱七八糟的文件，关于这一点，收敛一下自己的强迫症吧。
+gulp：①：scss自动编译
+  ②：游览器自动更新
+  ③：上线版本号发布(解决在生产环境下更新后，客户端存在缓存的问题)
+  ④：代码混淆
+</pre>
+	<p class="font-color-green">注意事项：</p>
+	1、区分<em class="emphasize">dependencies</em>和<em class="emphasize">devDependencies</em>，前者是<em class="emphasize">生产环境</em>依赖项，后者是<em class="emphasize">开发环境</em>依赖项，
+	所以像gulp等构建工具放在后者，而项目使用的插件放在前者，判断标准：<em class="emphasize">生产环境需不需要这个？</em>
+	<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;<em class="emphasize">①、安装dependencies：</em>
+	<pre class="dd-pre-blue">
+npm install angular --save</pre>
+	&nbsp;&nbsp;&nbsp;&nbsp;<em class="emphasize">②、安装devDependencies：</em>
+	<pre class="dd-pre-blue">
+npm install angular --save-dev</pre>
+	&nbsp;&nbsp;&nbsp;&nbsp;<em class="emphasize">③、关于语义化版本号：假定当前版本是1.0.4(指的是你第一次用的时候，默认安装的就是latest version)</em>
+	<pre class="dd-pre-blue">
+只接受补丁包：1.0 或者 1.0.x 或者 ~1.0.4
+只接受小版本和补丁包：1 或者 1.x 或者 ^1.0.4
+接受所有更新：* or x
+<em class="emphasize">但是在实际应用中，我们并不需要它升级(甚至说任何改变)，所以请使用固定版本号，有两种办法：</em>
+方法一：npm install 后，手动修改package.json
+方法二：npm install [packageName] --save[-dev] 
+</pre>
+	<h4 class="font-16"><em class="font-color-green">总结：</em>一定要<em class="emphasize">--save</em>,还有使用<em class="emphasize">固定版本号</em></h4>
+				</dd>
+			</dl>
+			
+			<dl class="main-right-content" id="article3">
+				<dt class="font-color-green">3 css规范</dt>
+				<dd class="content-dd">
+					<h3 id="article31" class="font-16 font-color-green mg-top20">3.1 选择器命名</h3>
+					<h4 class="font-16"><em class="font-color-green">建议：</em> <em class="emphasize">CSS</em> 选择器名要语义化。</h4>
+					<p><em class="font-color-green">解释：</em>好的语义化选择器名，方便查找。选择器名尽量用单词、缩写语义化命名，多个单词用"-"中划线拼接。</p>
+<pre class="dd-pre">
+/* 商品 */
+.goods {
+}
+/* 商品列表 */
+.goods-list {
+}
+</pre>
+
+					<!--<h3 id="article32" class="font-16 font-color-green mg-top20">3.2 缩进</h3>
+					<h4 class="font-16"><em class="font-color-green">强制：</em>使用 <em class="emphasize">4</em> 个空格做为一个缩进层级，不允许使用 <em class="emphasize">2</em> 个空格。</h4>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+.box {
+    padding: 0;
+    margin: 0;
+}
+</pre>-->
+
+					<h3 id="article33" class="font-16 font-color-green mg-top20">3.3 空格</h3>
+					<h4 class="font-16"><em class="font-color-green">强制：</em><em class="emphasize">选择器</em> 与 <em class="emphasize">{</em> 之间必须包含空格。</h4>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+.box {
+}
+</pre>
+					<h4 class="font-16"><em class="font-color-green">强制：</em> <em class="emphasize">属性名</em>  与之后的 <em class="emphasize">:</em> 之间不允许包含空格， <em class="emphasize">:</em> 与 <em class="emphasize">属性值</em> 之间必须包含空格。</h4>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+padding: 0;
+</pre>
+
+					<h3 id="article34" class="font-16 font-color-green mg-top20">3.4 选择器</h3>
+					<h4 class="font-16"><em class="font-color-green">强制：</em>当一个 <em class="emphasize">rule</em> 包含多个 <em class="emphasize">selector</em> 时，每个选择器声明必须独占一行。</h4>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+.post,
+.page,
+.comment {
+    line-height: 1.5;
+}
+</pre>
+					<h4 class="font-16"><em class="font-color-green">强制：</em>当一个 <em class="emphasize">></em>、 <em class="emphasize">+</em>、<em class="emphasize">~</em> 选择器的两边各保留一个空格。</h4>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+/* 推荐的 */
+main > nav {
+    padding: 10px;
+}
+label + input {
+    margin-left: 5px;
+}
+input:checked ~ button {
+    background-color: #69C;
+}
+/* 不推荐的 */
+main > nav {
+    padding: 10px;
+}
+label + input {
+    margin-left: 5px;
+}
+input:checked ~button {
+    background-color: #69C;
+}
+</pre>
+					<h4 class="font-16"><em class="font-color-green">强制：</em>属性选择器中的值必须用双引号包围。</h4>
+					<p><em class="font-color-green">解释：</em>不允许使用单引号，不允许不使用引号。</p>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+/* 推荐的 */
+article[character="juliet"] {
+    voice-family: "Vivien Leigh", victoria, female
+}
+/* 不推荐的 */
+article[character='juliet'] {
+    voice-family: "Vivien Leigh", victoria, female
+}
+</pre>
+
+					<h3 id="article35" class="font-16 font-color-green mg-top20">3.5 属性</h3>
+					<h4 class="font-16"><em class="font-color-green">强制：</em>属性定义必须另起一行。</h4>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+.box {
+    padding: 0;
+    margin: 0;
+}
+</pre>
+
+					<h3 id="article36" class="font-16 font-color-green mg-top20">3.6 BEM命名示例</h3>
+					<p><em class="font-color-green">解释：</em>BEM 是一种前端项目开发的方法学，由 Yandex 公司提出。BEM 的名称来源于该方法学的三个组成部分的英文首字母，分别是块（Block）、元素（Element）和修饰符（Modifier）。这三个不同的组成部分称为 BEM 实体。比较下面这两种不同的方式，BEM 的优点在于所产生的 CSS 类名都只使用一个类别选择器，可以避免传统做法中由于多个类别选择器嵌套带来的复杂的属性级联问题。在 BEM 命名规则中，所有的 CSS 样式规则都只用一个类别选择器。因此所有样式规则的特异性（specificity）都是相同的，也就不存在复杂的优先级问题。这可以简化属性值的层叠规则。代码清单中的命名规则的好处在于每个 CSS 类名都很简单明了，而且类名的层次关系可以与 DOM 节点的树型结构相对应。BEM 命名规则的可能的缺点在于 CSS 类名会比较长而且复杂。乍看之下，根据 BEM 命名规则产生的 CSS 类名都会很复杂，但实际上在熟悉了命名规则之后，可以很容易理解其含义。</p>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+/* 使用 BEM 命名规则的 CSS 类的 HTML 代码 */
+.menu {
+    list-style: none;
+}
+.menu-item {
+    font-weight: bold;
+}
+.menu-item-selected {
+    color: red;
+}
+
+&lt;ul class="menu">
+    &lt;li class="menu-item menu-item-selected">Menu Item 1&lt;/li>
+    &lt;li class="menu-item">Menu Item 2&lt;/li>
+    &lt;li class="menu-item">Menu Item 3&lt;/li>
+&lt;/ul>
+
+/* 使用传统命名规则的 CSS 类的 HTML 代码 */
+.menu {
+    list-style: none;
+}		 
+.menu .item {
+    font-weight: bold;
+}		 
+.menu .item.selected {
+    color: red;
+}		
+
+&lt;ul class="menu">
+    &lt;li class="item selected">Menu Item 1&lt;/li>
+    &lt;li class="item">Menu Item 2&lt;/li>
+    &lt;li class="item">Menu Item 3&lt;/li>
+&lt;/ul>
+
+</pre>
+
+<dl class="main-right-content" id="article4">
+				<dt class="font-color-green">4 JS代码规范</dt>
+				<dd class="content-dd">
+					<h3 id="article41" class="font-16 font-color-green mg-top20">4.1 严格模式</h3>
+					<h4 class="font-16"><em class="font-color-green">强制：</em> 严格模式可以规范大家的代码书写习惯，提高游览器编译效率</h4>
+					<p><em class="font-color-green">声明方式：</em>下面是两种定义方式，前者是全文模式，后者是方法内严格模式，建议使用全文模式</p>
+					
+<pre class="dd-pre">
+xxx.js:
+------------------
+  'use strict'
+  //coding here
+------------------
+aaa.js
+------------------
+  function(){
+  	'use strict'
+  	//code your method here
+  };
+</pre>
+
+					<h3 id="article42" class="font-16 font-color-green mg-top20">4.2 controller定义</h3>
+					<h4 class="font-16"><em class="font-color-green">强制：</em>必须使用<em class="emphasize">数组式声明</em>;控制名采用：模块名+'Ctrl'命名;<em class="emphasize">多余的依赖请删除</em></h4>
+					<p> <em class="font-color-green">解释：</em>项目后期，代码需要做混淆处理，而内联式声明的控制器，混淆后，会发生编译错误;</p>
+<pre class="dd-pre">
+//<em class="color-hope">不推荐的</em>
+App.controller('forgot', function ($scope) {	
+	
+});
+//<em class="color-hope">推荐,命名语义化，并且采用数组式声明</em>
+App.controller('forgotCtrl', ['$scope',function ($scope) {
+	
+}]);
+</pre>
+				
+				<h3 id="article43" class="font-16 font-color-green mg-top20">4.3 属性+方法定义</h3>
+					<h4 class="font-16"><em class="font-color-green">建议：</em></h4>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;①：html上的变量定义在<em class="emphasize">scope的属性上</em>,而不是定义在<em class="emphasize">scope上</em></p>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;②：scope的属性必须<em class="emphasize">初始化</em>,采用单复数的形式</p>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;③：function只要不是绑定在html的，不建议绑定在scope上</em></p>
+					<p> <em class="font-color-green">解释：</em>①：前者可以避免域覆盖，规范变量使用</p>
+<pre class="dd-pre">
+App.controller('forgotCtrl', function ($scope) {
+	var temp = "面对疾风吧"; //<em class="color-hope">最上面写全局变量</em>
+	
+	$scope.userInfo = { 	//<em class="color-hope">接着初始化scope的属性</em>
+		"name":"",
+		"age":""
+	}
+	$scope.students Vs $scope.studentList  // <em class="emphasize">推荐前者，命名中，数据类型价值不高</em>
+	
+	$scope.sayHello = function(){  //<em class="color-hope">再接着定义scope的方法</em>
+	}; 	//请加上冒号，照顾一下使用WS的同事，-，-
+	
+	function whoAreYou(){ 	//<em class="color-hope">最后写辅助方法</em>
+	};
+});
+</pre>
+
+			
+			<dl class="main-right-content" id="article5">
+				<dt class="font-color-green">5 项目结构</dt>
+				<dd class="content-dd">
+					<h3 id="article51" class="font-16 font-color-green mg-top20">5.1 文件结构</h3>
+					<h4 class="font-16"><em class="font-color-green">建议：</em> 采用模块化划分思想：业务+资源(图片，图标，字体...)+功能</h4>
+					<p><em class="font-color-green">解释：</em>一个好的文件结构应该能够适应不同的项目规模，下面以DMP项目举例：</p>
+					
+<pre class="dd-pre">
+DMP:
+---
+   |node_modules
+     	|..modules //插件
+   |app
+      |..config	//app配置，路由等
+      |..css		//scss编译后的css
+      |..pages
+    	|..模块A
+    	   |..**Ctrl.js
+     	   |..**.html
+      |..scss
+      |..template
+    |assets
+     	|..images
+     	|..fonts
+   gulpfile.js
+   index.html
+   package.json
+</pre>
+
+			<!--<dl class="main-right-content" id="article4">
+				<dt class="font-color-green">4 值与文本</dt>
+				<dd class="content-dd">
+					<h3 id="article41" class="font-16 font-color-green mg-top20">4.1 文本</h3>
+					<h4 class="font-16"><em class="font-color-green">建议：</em> 内容必须用双引号包围。</h4>
+					<p><em class="font-color-green">解释：</em>文本类型的内容可能在选择器、属性值等内容中。</p>
+<pre class="dd-pre">
+/* 推荐的 */
+html[lang|="zh"] q:before {
+    font-family: "Microsoft YaHei", sans-serif;
+    content: "“";
+}
+html[lang|="zh"] q:after {
+    font-family: "Microsoft YaHei", sans-serif;
+    content: "”";
+}
+/* 不推荐的 */
+html[lang|=zh] q:before {
+    font-family: 'Microsoft YaHei', sans-serif;
+    content: '“';
+}
+html[lang|=zh] q:after {
+    font-family: "Microsoft YaHei", sans-serif;
+    content: "”";
+}
+</pre>
+
+					<h3 id="article42" class="font-16 font-color-green mg-top20">4.2 url()</h3>
+					<h4 class="font-16"><em class="font-color-green">强制：</em>函数中的路径不加引号。</h4>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+body {
+    background: url(bg.png);
+}
+</pre>
+					<h4 class="font-16"><em class="font-color-green">建议：</em> <em class="emphasize">url()</em> 函数中的绝对路径可省去协议名。</h4>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+body {
+    background: url(//baidu.com/img/bg.png) no-repeat 0 0;
+}
+</pre>
+
+					<h3 id="article43" class="font-16 font-color-green mg-top20">4.3 长度</h3>
+					<h4 class="font-16"><em class="font-color-green">强制：</em><em class="emphasize">0</em> 时须省略单位。 (也只有长度单位可省)</h4>
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+/* 推荐的 */
+body {
+    padding: 0 5px;
+}
+/* 不推荐的 */
+body {
+    padding: 0px 5px;
+}
+</pre>
+
+					<h3 id="article44" class="font-16 font-color-green mg-top20">4.4 颜色</h3>
+					<h4 class="font-16"><em class="font-color-green">强制：</em>RGB颜色值必须使用十六进制记号形式 <em class="emphasize">#rrggbb</em>，不允许使用 <em class="emphasize">rgb()</em>。</h4>
+					<p><em class="font-color-green">解释：</em>带有alpha的颜色信息可以使用rgba()，使用rgba()时每个逗号后必须保留一个空格。</p>
+					
+					<p class="font-color-green">示例：</p>
+<pre class="dd-pre">
+/* 推荐的 */
+.success {
+    box-shadow: 0 0 2px rgba(0, 128, 0, .3);
+    border-color: #008000;
+}
+
+/* 不推荐的 */
+.success {
+    box-shadow: 0 0 2px rgba(0,128,0,.3);
+    border-color: rgb(0, 128, 0);
+}
+</pre>
+				</dd>
+			</dl>-->
+		</div>
+	</section>
+</body>
+</html>
