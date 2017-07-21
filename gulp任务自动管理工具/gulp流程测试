@@ -1,0 +1,179 @@
+
+
+1、gulpfile.js内容
+	'use strict';
+
+	 var gulp = require('gulp');
+	 var wrench = require('wrench');
+
+	 /**
+ 	 *  This will load all js or coffee files in the gulp directory
+ 	 *  in order to load all gulp tasks
+	 *   加载./gulp文件夹下所有的js和coffee文件。
+	 */
+	 wrench.readdirSyncRecursive('./gulp').filter(function(file) {
+	   return (/\.(js|coffee)$/i).test(file);
+	 }).map(function(file) {
+	   require('./gulp/' + file);
+	 });
+
+
+	 /**
+	 *  Default task clean temporaries directories and launch the
+	 *  main optimization build task
+	 *  默认执行‘build’任务，在执行之时，先执行‘clean’任务。
+	 */
+	 gulp.task('default', ['clean'], function () {
+	   gulp.start('build');
+	 });
+2、gulp文件下的build.js命令
+	'use strict';
+	/**
+	*  按顺序进行加载
+	*
+	**/
+
+	var gulp = require('gulp'),
+	    runSequence = require('run-sequence'.use(gulp);
+	gulp.task('prduct',function(){
+	    runSquence(['Imagemin','mainBrower','sass','miniHtml'],['miniCss','miniJs'],'revIndex',done);
+	});
+
+	2.1 Imagemin任务
+		'use strict';
+		/**压缩image**/
+		var gulp = require('gulp'),
+		    imagemin = require('gulp-imagemin');
+		gulp.task('Imagemin',function(){
+			return gulp.src('assets/images/*.{png,jpg,gif,ico}')
+				   .pipe(imagemin{
+				   	optimizationLevel: 5	//类型：Number 默认：3 取值范围：0-7（优化等级）
+					progressive: true	//类型：Boolean 默认：false  无损压缩jpg图片
+					interlaced: true	//类型：Boolean 默认：false  隔行扫描gif进行渲染
+					multipass: true		//类型：Boolean 默认：false  多次优化svg知道完全优化
+				    })
+				    .pipe(gulp.dest('dist/images'));
+			});
+	2.2 mainBrower任务
+		'use strict';
+		/**生产环境打包**/
+		var gulp = require('gulp'),
+		    runSequence = require('run-sequence').use(gulp),
+		    mainBowerFiles = require('mian-bower-files'),
+		    uglify = require('gulp-uglify'),
+		    cleanCss = require('gulp-clean-css'),
+		    order = require('gulp-order');
+
+		gulp.task('mainBower',function(done){
+			runSequence('handleBower',['bowerJS','bowerCss',done]);
+		})
+		/**整理、取出bower插件(js/css)**/
+		gulp.task('handleBower',function(){
+			return gulp.src(mainBowerFiles())
+				.pipe(gulp.dest('dist/plugin'))
+		});
+		/**整理插件Js**/
+		gulp.task('bowerJS',function(){
+			return gulp.src(['dist/plugin/*.js','node_models/ng-echarts/dist/ng-echarts.min.js'])
+				.pipe(order(['jquery.min.js','angular.min.js','*.js']))
+				.pipe(concat('plugin.js'))
+				.pipe(uglify())		//压缩、混淆（这句话要加在下句话之前，不然没效果）
+				.pipe(gulp.dest('dist/js'))
+		});
+		/**整理css(sass)**/
+		gulp.task('bowerCss',function(){
+			return gulp.src(['dist/plugin/*.css','dist/plugin/*.less'])
+				.pipe(concat('plugin.css'))
+				.pipe(cleanCss())
+				.pipe(gulp.dest('dist/css'))
+		});
+	2.3 sass 任务
+		/**编译sass**/
+		var gulp = require('gulp'),
+		    sass = require('gulp-sass'),
+		    brewserSync = require('browser-sync').create(),
+		gulp.task('sass',function(){
+			return gulp.src(['app/scss/*.scss','app/scss/**/*.js','app/pages/**/*.scss'])
+				.pipe(sass().on('error',sass.logError))
+				.pipe(gulp.dest('app/css'))
+				.pipe(browserSync.stream())
+		});
+	2.4 miniHtml
+		/**压缩html文件，并且存入templateCacheModule**/
+		var gulp = require('gulp'),
+		    concat = requore('gulp-concat'),
+		    htmlmin = require('gulp-htmlmin'),
+		    ngHtml2js = require('gulp-ng-html2js'),
+		    replace = require('gulp-replace');
+		gulp.task('miniHtml',function(){
+			return gulp.src('app/pages/**/*.html')
+				.pipe(replace('assets/images','images'))
+				.pipe(htmlmin())
+				.pipe(nHtml2js({
+					moduleName:'DMP_ADMIN',
+					prefix: 'app/pages/'	
+				}))
+				.pipe(concat('templateCache.tpl.js'))
+				.pipe(gulp.dest(dist/js));
+		});
+	2.5 miniCss 任务
+		/**压缩css文件**/
+		var gulp = require('gulp'),
+		    rev = require('gulp-rev'),
+		    cleanCss = require('gulp-clean-css'),
+		    replace = require('gulp-replace');
+		gulp.task('miniCss',function(){
+			return gulp.src(['app/css/master.css','dist/css/plugin.css'])
+                                .pipe(replace('../../assets/images','../images'))
+                                .pipe(cleanCss())
+                                .pipe(gulp.dest('dist/css'))
+                                .pipe(rev())
+                                .pipe(gulp.dest('dist/css'))
+                                .pipe(rev.mainifest())
+                                .pipe(gulp.dest('dist/rev/css'));
+			});
+	2.6 miniJs任务
+		'use strict';
+		/**压缩js文件**/
+		var gulp = require('gulp'),
+		    runSequence = require('run-squence').use(gulp),
+		    rev = require('gulp-rev'),
+		    ngAnnotate = require('gulp-ng-annotate'),
+		    concat = require('gulp-concat'),
+		    uglify = require('gulp-uglify'),
+		    del = require('del'),
+		    mainBowerFiles = require('main-bower-files');
+		gulp.task('miniJs',function(done){
+			runSequence('combine','handleJs',done)
+		});
+		
+		/**找到所有的Js(除了插件)，合并、处理依赖注入，压缩(混淆)，合成app.js**/
+		gulp.task('combine',function(){
+			return gulp.src(['app.js/**/*.js','app/pages/**/*.js','dist/js/templateCache.tpl.js','assets/fonts/iconfont.js'])
+				.pipe(concat('app.js'))		//合并config和控制器下的js到app.js
+				.pipe(gulp.dest('dist.js'))
+				.pipe(ngAnnotate({single_quotes:true}))		//处理依赖注入
+				.pipe(uglify())	//压缩、混淆
+				.pipe(gulp.dest('dist/js'))
+		});
+		/**针对js打版本**/
+		gulp.task('handlesJs',function(){
+			return gulp.src(['dist/js/app.js'],'dist/js/plugin.js')
+				.pipe(rev())
+				.pipe(gulp.dest('dist/js'))
+				.pipe(rev.manifest())
+				.pipe(gulp.dest('dist/rev/js'))			
+		});
+	2.7 revIndex 任务
+		'use strict';
+		/****/
+		var gulp = require('gulp'),
+		    rev = require('gulp-rev'),
+		    revCollector = require('gulp-rev-collector');
+		gulp.task('revIndex',function(){
+			return gulp.src(['dist/rev/**/*.json','index.min.html'])
+				.pipe(revCollector({
+					replaceReved : true
+				}))
+				.pipe(gulp.dest('dist'));
+		});
